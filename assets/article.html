@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>{{ .Article.Title }} | {{ .Title }}</title>
+</head>
+<body>
+  <div class="container">
+    <header class="d-flex justify-content-md-between align-items-center py-2 border-bottom">
+      <a href="/" class="btn">
+        <h1 class="fs-2">{{ .Title }}</h1>
+      </a>
+    </header>
+
+    <div class="container py-3">
+      <div class="d-flex justify-content-md-between align-items-center">
+        <div>
+          <small class="text-start text-primary">{{ .Article.Created.Format "2006年1月2日" }}</small>
+          <h2 class="text-start py-1">{{ .Article.Title }}</h2>
+        </div>
+
+        <button class="btn btn-outline-danger btn-sm text-end" type="submit" onclick="deleteArticle('{{ .Article.ID }}')">
+          <i class="fa-regular fa-trash-can"></i>
+        </button>
+      </div>
+      {{ range .Article.Paragraphs }}
+      <p class="my-4">{{ . }}</p>
+      {{ end }}
+    </div>
+  </div>
+
+  <script>
+    function deleteArticle(id) {
+      // 確認
+      if (!window.confirm('本当に削除しますか？')) {
+        return;
+      }
+
+      // DELETEリクエスト
+      fetch(`/articles?id=${id}`, { method: 'DELETE' });
+
+      // トップページに移動
+      location.href = '/';
+    }
+  </script>
+</body>
+</html>
