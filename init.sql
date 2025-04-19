@@ -1,0 +1,8 @@
+CREATE SEQUENCE IF NOT EXISTS article_id START 1;
+
+CREATE TABLE IF NOT EXISTS article (
+    id INT PRIMARY KEY DEFAULT nextval('article_id'),
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
